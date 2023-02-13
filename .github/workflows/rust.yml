@@ -1,4 +1,4 @@
-name: Build binary release
+name: Rust CI/CD Pipeline
 
 on: [push, pull_request]
 
@@ -14,6 +14,12 @@ jobs:
           profile: minimal
           components: clippy, rustfmt
           override: true
-      - name: Run clippy
+      - name: Formatting
+        run: make format
+      - name: Linting
+        run: make lint
+      - name: Testing
+        run: make test  
+      - name: Build Release
         run: make build-release
-  
+
