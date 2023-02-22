@@ -13,3 +13,11 @@ cd dictionary-microservice
 ```bash
 cargo run
 ```
+
+
+## TODO:
+1) Add functionality to get multiple definitions, parts of speech, etc.
+2) Allow the user to enter their word of choice through a search box instead of the url
+3) Connect to the cloud
+4) Dockerfile
+5) Testing
