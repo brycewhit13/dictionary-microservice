@@ -16,6 +16,7 @@ cargo run
 
 
 ## TODO:
+- Add to home index page
 - Allow the user to enter their word of choice through a search box instead of the url
 - Connect to the cloud
 - Dockerfile
