@@ -11,7 +11,7 @@ pub struct Dictionary {
 }
 
 // function to make reqwest to free dictionary api
-pub async fn make_reqwest(word: &str) -> Dictionary {
+pub async fn make_request(word: &str) -> Vec<Dictionary> {
     // make request to api
     let response = reqwest::get(format!(
         "https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
@@ -27,65 +27,105 @@ pub async fn make_reqwest(word: &str) -> Dictionary {
 }
 
 // function to parse the response
-pub fn parse_response(response: String) -> Dictionary {
-    // create a new dictionary object
-    let mut dictionary = Dictionary {
-        word: String::new(),
-        definition: String::new(),
-        part_of_speech: String::new(),
-        synonyms: Vec::new(),
-        antonyms: Vec::new(),
-    };
-
+pub fn parse_response(response: String) -> Vec<Dictionary> {
     // parse the response
     let response: serde_json::Value = serde_json::from_str(&response).unwrap();
     let response = response.as_array().unwrap();
     let response = response[0].as_object().unwrap();
 
-    // get the word
-    dictionary.word = response["word"].as_str().unwrap().to_string();
+    // Track dictionary objects for each definition
+    let mut def_dicts_all: Vec<Dictionary> = Vec::new();
+    let word_of_interest = response["word"].as_str().unwrap().to_string();
 
-    // get the definition
-    dictionary.definition = response["meanings"][0]["definitions"][0]["definition"]
+    // Loop through the different definitions
+    for def in response["meanings"].as_array().unwrap() {
+        // create a new dictionary object
+        let mut dictionary = Dictionary {
+            word: String::new(),
+            definition: String::new(),
+            part_of_speech: String::new(),
+            synonyms: Vec::new(),
+            antonyms: Vec::new(),
+        };
+
+        // store the word
+        dictionary.word = word_of_interest.clone();
+
+        // get the definition
+        dictionary.definition = def["definitions"][0]["definition"]
+            .as_str()
+            .unwrap()
+            .to_string();
+
+        // get the part of speech
+        dictionary.part_of_speech = def["partOfSpeech"]
         .as_str()
         .unwrap()
         .to_string();
 
-    // get the part of speech
-    dictionary.part_of_speech = response["meanings"][0]["partOfSpeech"]
-        .as_str()
-        .unwrap()
-        .to_string();
+        // get the synonyms
+        let synonyms = def["synonyms"]
+            .as_array()
+            .unwrap();
+        for synonym in synonyms {
+            dictionary
+                .synonyms
+                .push(synonym.as_str().unwrap().to_string());
+        }
 
-    // get the synonyms
-    let synonyms = response["meanings"][0]["definitions"][0]["synonyms"]
-        .as_array()
-        .unwrap();
-    for synonym in synonyms {
-        dictionary
-            .synonyms
-            .push(synonym.as_str().unwrap().to_string());
+        // get the antonyms
+        let antonyms = def["antonyms"]
+            .as_array()
+            .unwrap();
+        for antonym in antonyms {
+            dictionary
+                .antonyms
+                .push(antonym.as_str().unwrap().to_string());
+        }
+        
+        // add the dictionary to the vector
+        def_dicts_all.push(dictionary);
     }
 
-    // get the antonyms
-    let antonyms = response["meanings"][0]["definitions"][0]["antonyms"]
-        .as_array()
-        .unwrap();
-    for antonym in antonyms {
-        dictionary
-            .antonyms
-            .push(antonym.as_str().unwrap().to_string());
-    }
-
-    // return the dictionary object
-    dictionary
+    // return the list of dictionaries
+    def_dicts_all
 }
 
-// function to print the contents of the dictionary object
-pub fn print_dictionary(dictionary: Dictionary) {
-    println!("Word: {}", dictionary.word);
-    println!("Definition: {}", dictionary.definition);
-    println!("Part of Speech: {}", dictionary.part_of_speech);
-    println!("Synonyms: {:?}", dictionary.synonyms);
-    println!("Antonyms: {:?}", dictionary.antonyms);
+// Function to convert a dictionary to a string
+pub fn dict_to_string(dictionary: Vec<Dictionary>) -> String {
+    let mut final_string = String::new();
+    
+    // Push the word to the final string
+    final_string.push_str(&format!("Word: {}\n\n", dictionary[0].word));
+
+    // Loop through the dictionaries
+    for dict in dictionary {
+        // push the definition and part of speech to the final string
+        final_string.push_str(&format!(
+            "Definition ({}): {}\n",
+            dict.part_of_speech, dict.definition
+        ));
+
+        // push the synonyms and antonyms to the final string
+        if dict.synonyms.len() > 0 || dict.antonyms.len() > 0 {
+            final_string.push_str(&format!("Synonyms: {:?}\n", dict.synonyms));
+            final_string.push_str(&format!("Antonyms: {:?}\n\n", dict.antonyms));
+        }
+        else{
+            final_string.push_str("\n");
+        }
+
+        /*
+        final_string.push_str(&format!(
+            "Word: {}\nDefinition: {}\nPart of Speech: {}\nSynonyms: {:?}\nAntonyms: {:?}\n\n",
+            dict.word,
+            dict.definition,
+            dict.part_of_speech,
+            dict.synonyms,
+            dict.antonyms
+        )); */
+    }
+    
+    // return the final string
+    final_string
 }
