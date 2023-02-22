@@ -16,8 +16,7 @@ cargo run
 
 
 ## TODO:
-1) Clean up printing
-2) Allow the user to enter their word of choice through a search box instead of the url
-3) Connect to the cloud
-4) Dockerfile
-5) Testing
+- Allow the user to enter their word of choice through a search box instead of the url
+- Connect to the cloud
+- Dockerfile
+- Testing
