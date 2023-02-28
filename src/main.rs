@@ -5,7 +5,7 @@ use dictionary_microservice::{dict_to_string, make_request};
 // Create a function for the home page
 #[get("/")]
 async fn index() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+    HttpResponse::Ok().body("Welcome to the dictionary microservice!")
 }
 
 // Create a function that runs lib.rs functions to generate response from the API
