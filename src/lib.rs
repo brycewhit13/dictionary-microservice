@@ -1,6 +1,3 @@
-// Imoprt crates
-// TODO: Look into the extraction of everything and how it is printed from the API
-
 // Dictionary object to store data about the word
 pub struct Dictionary {
     pub word: String,
@@ -58,15 +55,10 @@ pub fn parse_response(response: String) -> Vec<Dictionary> {
             .to_string();
 
         // get the part of speech
-        dictionary.part_of_speech = def["partOfSpeech"]
-        .as_str()
-        .unwrap()
-        .to_string();
+        dictionary.part_of_speech = def["partOfSpeech"].as_str().unwrap().to_string();
 
         // get the synonyms
-        let synonyms = def["synonyms"]
-            .as_array()
-            .unwrap();
+        let synonyms = def["synonyms"].as_array().unwrap();
         for synonym in synonyms {
             dictionary
                 .synonyms
@@ -74,15 +66,13 @@ pub fn parse_response(response: String) -> Vec<Dictionary> {
         }
 
         // get the antonyms
-        let antonyms = def["antonyms"]
-            .as_array()
-            .unwrap();
+        let antonyms = def["antonyms"].as_array().unwrap();
         for antonym in antonyms {
             dictionary
                 .antonyms
                 .push(antonym.as_str().unwrap().to_string());
         }
-        
+
         // add the dictionary to the vector
         def_dicts_all.push(dictionary);
     }
@@ -94,7 +84,7 @@ pub fn parse_response(response: String) -> Vec<Dictionary> {
 // Function to convert a dictionary to a string
 pub fn dict_to_string(dictionary: Vec<Dictionary>) -> String {
     let mut final_string = String::new();
-    
+
     // Push the word to the final string
     final_string.push_str(&format!("Word: {}\n\n", dictionary[0].word));
 
@@ -107,25 +97,14 @@ pub fn dict_to_string(dictionary: Vec<Dictionary>) -> String {
         ));
 
         // push the synonyms and antonyms to the final string
-        if dict.synonyms.len() > 0 || dict.antonyms.len() > 0 {
+        if dict.synonyms.is_empty() || dict.antonyms.is_empty() {
             final_string.push_str(&format!("Synonyms: {:?}\n", dict.synonyms));
             final_string.push_str(&format!("Antonyms: {:?}\n\n", dict.antonyms));
+        } else {
+            final_string.push('\n');
         }
-        else{
-            final_string.push_str("\n");
-        }
-
-        /*
-        final_string.push_str(&format!(
-            "Word: {}\nDefinition: {}\nPart of Speech: {}\nSynonyms: {:?}\nAntonyms: {:?}\n\n",
-            dict.word,
-            dict.definition,
-            dict.part_of_speech,
-            dict.synonyms,
-            dict.antonyms
-        )); */
     }
-    
+
     // return the final string
     final_string
 }
