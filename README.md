@@ -14,6 +14,10 @@ cd dictionary-microservice
 cargo run
 ```
 
+## Running on minikube (Locally)
+1) Download the minikube command-line tool [here]()
+```bash
+```
 
 ## TODO:
 - Allow the user to enter their word of choice through a search box instead of the url
