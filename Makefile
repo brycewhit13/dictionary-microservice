@@ -21,10 +21,4 @@ run:
 release:
 	cargo build --release
 
-build:
-	docker build -t dictionary-microservice .
-
-run-docker:
-	docker run -it --rm -p 8080:8080 dictionary-microservice
-
 all: format lint test run
