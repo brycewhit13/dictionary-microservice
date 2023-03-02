@@ -27,9 +27,18 @@ This project is a microservice that acts as a combined dictionary and thesaurus.
 1) Download the minikube command-line tool [here](https://minikube.sigs.k8s.io/docs/start/)
 2) Start the minikube service with `minikube start`
 3) Create an alias using `alias kubectl="minikube kubectl --"`
-4) Create a deployment: `kubectl create deployment dictionary --image=registry.hub.docker.com/brycewhit13/dictionary-microservice`
-5) Create a service and expose it: `kubectl expose deployment dictionary --type=NodePort --port=8080`
-6) Foward the port to the local 7080: `kubectl port-forward service/dictionary 7080:8080` and go to [](http://localhost:7080)
-7) Delete the deployment for cleanup: `kubectl delete deployment dictionary`
-8) Delete the service for cleanup: `kubectl delete service dictionary`
-9) Stop the minikube service: `minikube stop`
+4) Download the correct kubectl version: `kubectl get po -A`
+5) Create a deployment: `kubectl create deployment dictionary --image=registry.hub.docker.com/brycewhit13/dictionary-microservice`
+6) Create a service and expose it: `kubectl expose deployment dictionary --type=NodePort --port=8080`
+7) Foward the port to the local 7080: `kubectl port-forward service/dictionary 7080:8080` and go to [](http://localhost:7080)
+8) Delete the deployment for cleanup: `kubectl delete deployment dictionary`
+9) Delete the service for cleanup: `kubectl delete service dictionary`
+10) Stop the minikube service: `minikube stop`
+
+## Welcome Page
+
+![Welcome Page]("imgs/welcome_page.PNG")
+
+## Dictionary Page
+
+![Dictionary Page]("imgs/dict_page.PNG")
