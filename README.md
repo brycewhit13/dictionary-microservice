@@ -2,9 +2,9 @@
 
 ## Description
 
-This project is a microservice that acts as a combined dictionary and thesaurus. It takes an word as an input and return the definition, part of speech, synonyms, and other information. This is achieved through the use of the [Free Dictionary API](https://dictionaryapi.dev/). 
+This project is a microservice that acts as a combined dictionary and thesaurus. It takes an word as an input and return the definition, part of speech, synonyms, and other information. This is achieved through the use of the [Free Dictionary API](https://dictionaryapi.dev/). For any word that is entered, the part of speech and definitions are returned to the screen. If there are multiple definitions, they will all be output. For each of these definitions, there will be a list of synonyms and antonyms which may or may not be empty. You can run it locally using `cargo run` or with minikube using the steps described below. 
 
-## Running the program
+## Running the program locally
 
 1) cd into the directory with `cd dictionary-microservice`
 2) Run the program using `cargo run`
@@ -37,8 +37,8 @@ This project is a microservice that acts as a combined dictionary and thesaurus.
 
 ## Welcome Page
 
-![Welcome Page]("imgs/welcome_page.PNG")
+![Welcome Page](imgs/welcome_page.PNG)
 
 ## Dictionary Page
 
-![Dictionary Page]("imgs/dict_page.PNG")
+![Dictionary Page](imgs/dict_page.PNG)
