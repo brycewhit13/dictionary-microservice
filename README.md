@@ -8,7 +8,7 @@ This project is a microservice that acts as a combined dictionary and thesaurus.
 
 1) cd into the directory with `cd dictionary-microservice`
 2) Run the program using `cargo run`
-3) Go to [](http://localhost:8080)
+3) Go to [this url](http://localhost:8080)
 
 ### Push the image to DockerHub
 
@@ -30,7 +30,7 @@ This project is a microservice that acts as a combined dictionary and thesaurus.
 4) Download the correct kubectl version: `kubectl get po -A`
 5) Create a deployment: `kubectl create deployment dictionary --image=registry.hub.docker.com/brycewhit13/dictionary-microservice`
 6) Create a service and expose it: `kubectl expose deployment dictionary --type=NodePort --port=8080`
-7) Foward the port to the local 7080: `kubectl port-forward service/dictionary 7080:8080` and go to [](http://localhost:7080)
+7) Foward the port to the local 7080: `kubectl port-forward service/dictionary 7080:8080` and go to [this url](http://localhost:7080)
 8) Delete the deployment for cleanup: `kubectl delete deployment dictionary`
 9) Delete the service for cleanup: `kubectl delete service dictionary`
 10) Stop the minikube service: `minikube stop`
